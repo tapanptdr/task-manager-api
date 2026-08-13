@@ -8,6 +8,10 @@ const userRoutes = require("./routes/userRoutes");
 
 const taskRoutes = require("./routes/taskRoutes");
 
+const adminRoutes = require("./routes/adminRoutes");
+
+const errorHandler = require("./middleware/errorMiddleware")
+
 // Middleware
 app.use(express.json());
 
@@ -24,6 +28,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 app.use("/api/tasks", taskRoutes);
+
+app.use("/api/admin", adminRoutes);
+
+app.use(errorHandler);
 
 module.exports = app;
 

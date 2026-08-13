@@ -1,7 +1,9 @@
+const mongoose = require("mongoose");
+const asyncHandler = require("express-async-handler");
 const Task = require("../models/Task");
 
-const createTask = async (req, res) => {
-    try{
+const createTask = asyncHandler(async (req, res) => {
+
 
         const {
             title,
@@ -11,10 +13,9 @@ const createTask = async (req, res) => {
         } = req.body;
 
         if(!title){
-            return res.status(400).json({
-                success: false,
-                message: "Title is required"
-            });
+            res.status(400);
+
+            throw new Error("Title is required");
         }
 
         const task = await Task.create({
@@ -30,16 +31,10 @@ const createTask = async (req, res) => {
             message: "Task created successfully",
             task
         });
-    } catch (error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
 
-const getTasks = async (req, res) => {
-    try {
+});
+
+const getTasks = asyncHandler (async (req, res) => {
 
         const tasks = await Task.find({
             createdBy: req.user._id
@@ -52,53 +47,41 @@ const getTasks = async (req, res) => {
             count: tasks.length,
             tasks
         });
-    } catch (error) {
 
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
+});
 
-const getTaskById = async (req, res) => {
-    try {
+const getTaskById = asyncHandler(async (req, res) => {
+
         const task = await Task.findOne({
             _id: req.params.id,
             createdBy: req.user._id
         });
 
         if(!task){
-            return res.status(404).json({
-                success: false,
-                message: "Task not found"
-            });
+            res.status(404);
+
+            throw new Error("Task Not Found");
         }
+
         res.status(200).json({
             success: true,
             task
         });
-    }
-    catch (error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
+});
 
-const updateTask = async (req, res) => {
-    try{
+const updateTask = asyncHandler(async (req, res) => {
+    
+
         const task = await Task.findOne({
             _id: req.params.id,
             createdBy: req.user._id
         });
 
         if(!task){
-            return res.status(404).json({
-                success: false,
-                message: "Task not found"
-            });
+            res.status(404);
+
+            throw new Error("Task Not Found");
+
         }
 
         const updatedTask = await Task.findByIdAndUpdate(
@@ -114,40 +97,27 @@ const updateTask = async (req, res) => {
             message: "Task updated successfully",
             task: updatedTask
         });
-    }
-    catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
+    
+});
 
-const deleteTask = async (req, res) => {
-    try {
+const deleteTask = asyncHandler(async (req, res) => {
+
         const deletedTask = await Task.findOneAndDelete({
             _id: req.params.id,
             createdBy: req.user._id
         });
 
         if(!deletedTask){
-            return res.status(404).json({
-                success: false,
-                message: "Task not found"
-            });
+            res.status(404);
+
+            throw new Error("Task Not Found");
         }
         res.status(200).json({
             success: true,
             message: "Task deleted successfully"
         });
-    }
-    catch (error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-};
+    
+});
 
 module.exports = {
     createTask,

@@ -11,4 +11,11 @@ router.get("/profile", protect, (req, res) => {
     });
 });
 
+router.get("/error-test", protect, (req, res, next) => {
+
+    const error = new Error("This is a test error");
+
+    next(error);
+
+});
 module.exports = router;
