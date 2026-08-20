@@ -773,6 +773,26 @@ Monitoring
 Redis caching
 Production deployment
 API performance optimization
+
+
+## 🌐 Live API
+
+The API is deployed on Render.
+
+Base URL:
+
+https://task-manager-api-z2ho.onrender.com
+
+Swagger Documentation:
+
+https://task-manager-api-z2ho.onrender.com/api-docs
+
+The deployed API uses:
+
+- Render for backend hosting
+- MongoDB Atlas for cloud database
+- JWT for authentication
+
 👨‍💻 Author
 
 Tapan Patidar
@@ -782,6 +802,8 @@ Computer Science & Engineering
 📄 License
 
 This project is currently intended for educational and portfolio purposes.
+
+
 
 
 
